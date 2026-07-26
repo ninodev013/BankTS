@@ -1,10 +1,18 @@
 import { NinoAccount } from "./NinoAccount";
 
 export class PeopleAccount extends NinoAccount {
-  doc_id: number;
+  private readonly docId: number;
 
-  constructor(doc_id: number, name: string, accountNumber: number) {
+  constructor(docId: number, name: string, accountNumber: number) {
     super(name, accountNumber);
-    this.doc_id = doc_id;
+    this.docId = docId;
+  }
+
+  public getAccountInfo(): void {
+    console.log({
+      name: this.getName(),
+      accountNumber: this.getAccountNumber(),
+      balance: this.getBalance(),
+    });
   }
 }

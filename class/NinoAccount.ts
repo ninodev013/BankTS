@@ -1,38 +1,65 @@
 export abstract class NinoAccount {
-  private name: string;
+  private readonly name: string;
   private readonly accountNumber: number;
-  balance: number = 0;
-  status: boolean = true;
+  private balance: number = 0;
+  private status: boolean = true;
 
   constructor(name: string, accountNumber: number) {
     this.name = name;
     this.accountNumber = accountNumber;
   }
 
-  setName = (name: string): void => {
-    this.name = name;
-    console.log("Nome alterado com sucesso");
-  };
+  public getAccountInfo(): void {
+    console.log({
+      name: this.getName(),
+      accountNumber: this.getAccountNumber(),
+      balance: this.getBalance(),
+    });
+  }
 
-  deposit = () => {
+  public getName(): string {
+    return this.name;
+  }
+
+  public getAccountNumber(): number {
+    return this.accountNumber;
+  }
+
+  public getBalance(): number {
+    return this.balance;
+  }
+
+  protected setBalance(value: number): void {
+    this.balance = value;
+  }
+
+  protected validateStatus(): boolean {
+    if (!this.status) {
+      throw new Error("Conta inválida");
+    }
+
+    return true;
+  }
+
+  public deposit(value: number): void {
     if (this.validateStatus()) {
-      console.log("Você depositou");
+      this.balance += value;
+
+      console.log(`Depósito de R$ ${value} realizado.`);
+      console.log(`Saldo: R$ ${this.balance}`);
     }
-  };
+  }
 
-  withdraw = () => {
-    console.log("Você sacou");
-  };
+  public withdraw(value: number): void {
+    if (this.validateStatus()) {
+      if (this.balance >= value) {
+        this.balance -= value;
 
-  getBalance = (): void => {
-    console.log(this.balance);
-  };
-
-  validateStatus = (): boolean => {
-    if (this.status) {
-      return this.status;
+        console.log(`Saque de R$ ${value} realizado.`);
+        console.log(`Saldo: R$ ${this.balance}`);
+      } else {
+        console.log("Saldo insuficiente.");
+      }
     }
-
-    throw new Error("Conta inválida");
-  };
+  }
 }

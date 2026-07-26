@@ -5,7 +5,9 @@ export class CompanyAccount extends NinoAccount {
     super(name, accountNumber);
   }
 
-  getLoan = () => {
-    console.log("Voce pegou um emprestimo");
-  };
+  public getLoan(value: number): void {
+    this.deposit(value);
+
+    console.log(`Empréstimo de R$ ${value} aprovado.`);
+  }
 }
